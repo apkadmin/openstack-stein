@@ -1,0 +1,16 @@
+apt -y install rabbitmq-server memcached python-pymysql
+
+#add username: openstack, password: password for rabitmq
+rabbitmqctl add_user openstack password
+rabbitmqctl set_permissions openstack ".*" ".*" ".*"
+
+systemctl enable rabbitmq-server
+systemctl restart rabbitmq-server
+
+
+ vi /etc/memcached.conf
+ # line 35: change
+-l 0.0.0.0
+
+systemctl enable memcached
+systemctl restart memcached

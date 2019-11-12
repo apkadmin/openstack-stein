@@ -1,0 +1,17 @@
+mysql -u root -p
+
+CREATE DATABASE keystone;
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYSTONE_DBPASS';
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'KEYSTONE_DBPASS';
+FLUSH PRIVILEGES;
+
+apt -y install keystone python-openstackclient apache2 libapache2-mod-wsgi-py3 python-oauth2client
+
+vi /etc/keystone/keystone.conf
+
+# line 476: uncomment and specify Memcache Server
+memcache_servers = 10.0.0.30:11211
+# line 591: change ( MariaDB connection info )
+connection = mysql+pymysql://keystone:password@10.0.0.30/keystone
+# line 2544: uncomment
+provider = fernet
